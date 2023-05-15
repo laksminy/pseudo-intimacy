@@ -48,19 +48,27 @@ df1_count %>%
 
   
 ## data for percentage =====
-df1_count %>% group_by(direction_of_speech) %>% mutate(perc = n/sum(n) * 100)
-  
+df1_count %>% 
+    group_by(direction_of_speech) %>% 
+    mutate(perc = n/sum(n) * 100)
   
 df1_matrix <- df1_count %>% 
   select(-gender) %>% 
   pivot_wider(names_from = pronouns, 
-              values_from = n) %>% 
+              values_from = n,
+              values_fill = 0L) %>% 
   mutate(direction_of_speech = str_extract(direction_of_speech, "(?<=\\s)\\(. [<>] .\\)$")) %>% 
   data.frame(row.names = 1, check.names = F) %>% 
   as.matrix()
 assocstats(df1_matrix)
 assoc(df1_matrix, shade = T)
 
+## chisquare test fig 1 ======
+chisq.test(df1_matrix)
+# Pearson's Chi-squared test
+# 
+# data:  df1_matrix
+# X-squared = 373.58, df = 3, p-value < 2.2e-16
 
 # data for figure 2 =====
 df2 <- laks %>%
@@ -98,6 +106,25 @@ df2_count %>%
         plot.caption = element_markdown(size = 7))
 ggsave('figs/fig2.png', width = 7.5, height = 3.5, dpi = 600)
 
+
+## fisher exact test for fig 2 ====
+df2_matrix <- df2_count %>% 
+  select(-gender) %>% 
+  pivot_wider(names_from = pronouns, 
+              values_from = n,
+              values_fill = 0L) %>% 
+  mutate(direction_of_speech = 
+           str_extract(direction_of_speech, "[A-Z]+ [<>] [A-Z]+")) %>% 
+  data.frame(row.names = 1, check.names = F) %>% 
+  as.matrix()
+
+chisq.test(df2_matrix)
+fisher.test(df2_matrix) # not significant difference
+# Fisher's Exact Test for Count Data
+# 
+# data:  df2_matrix
+# p-value = 0.054
+# alternative hypothesis: two.sided
 
 
 # data for figure 3 =====
@@ -142,8 +169,19 @@ df3_count %>%
   group_by(gender) %>% 
   mutate(perc = n/sum(n))
 
-
-
+## fisher exact test for fig 3 =====
+df3_matrix <- df3_count |> 
+  pivot_wider(names_from = pronouns, 
+              values_from = n, 
+              values_fill = 0L) |> 
+  data.frame(row.names = 1, check.names = F) |> 
+  as.matrix()
+fisher.test(df3_matrix)
+# Fisher's Exact Test for Count Data
+# 
+# data:  df3_matrix
+# p-value = 0.5248
+# alternative hypothesis: two.sided
 
 # data for figure 4 =====
 
@@ -181,12 +219,20 @@ df4 %>%
   labs(y = "proportion", x = "participants", fill = "pronouns", caption = "Values inside the bars are the raw frequencies.")
 ggsave('figs/fig4.png', width = 7.85, height = 3.5, dpi = 600)
 
+## chisquare test for fig 4 =====
+
 df4_mtx <- df4 %>% 
   pivot_wider(names_from = gender_cumulative, values_from = n) %>% 
   data.frame(check.names = FALSE, row.names = 1) %>% 
   as.matrix()
 chisq.test(df4_mtx)
+# Pearson's Chi-squared test with Yates' continuity correction
+# 
+# data:  df4_mtx
+# X-squared = 47.911, df = 1, p-value = 4.46e-12
+
 chisq.test(df4_mtx)$residuals
+chisq.test(df4_mtx)$p.value < 0.0001
 
 
 # data for figure 5 ====
@@ -240,6 +286,21 @@ df5_count %>%
         plot.caption = element_markdown(size = 8))
 ggsave('figs/fig5.png', width = 7.7, height = 5, dpi = 600)
 
+### fisher test for fig 5 =====
+df5_matrix <- df5_count |> 
+  select(-gender) |> 
+  pivot_wider(names_from = pronouns, values_from = n, values_fill = 0) |> 
+  data.frame(row.names = 1, check.names = FALSE)
+
+fisher.test(df5_matrix)
+# Fisher's Exact Test for Count Data
+# 
+# data:  df5_matrix
+# p-value = 0.02665
+# alternative hypothesis: two.sided
+
+chisq.test(df5_matrix)$residuals
+
 # data for figure 6 ======
 # laks <- read_xlsx("pseudo-intimacy raw and analysed data.xlsx", sheet = "raw-4", range = "A1:Y5271")
 # 
@@ -287,6 +348,18 @@ df6_count %>%
         plot.caption = element_markdown(size = 8))
 ggsave('figs/fig6.png', width = 7.7, height = 5, dpi = 600)
 
+## fisher exact test for fig 6 =====
+df6_matrix <- df6_count |> 
+  select(-gender) |> 
+  pivot_wider(names_from = pronouns,
+              values_from = n,
+              values_fill = 0L) |> 
+  data.frame(row.names = 1, 
+             check.names = FALSE) |> 
+  as.matrix()
+fisher.test(df6_matrix)
+fisher.test(df6_matrix)$p.value < 0.0001
+
 
 # data for figure 7 =======
 # laks <- read_xlsx("pseudo-intimacy raw and analysed data.xlsx", sheet = "raw-5", range = "A1:Z5249")
@@ -332,6 +405,25 @@ df7 %>%
         plot.caption = element_markdown())
 ggsave('figs/fig7.png', width = 7, height = 5, dpi = 600)
 
+## chisquare test for fig 7 =====
+df7_matrix <- df7 |> 
+  pivot_wider(names_from = pronoun_type,
+              values_from = n,
+              values_fill = 0L) |> 
+  data.frame(row.names = 1,
+             check.names = FALSE) |> 
+  as.matrix()
+
+chisq.test(df7_matrix)
+# Pearson's Chi-squared test with Yates' continuity correction
+# 
+# data:  df7_matrix
+# X-squared = 24.304, df = 1, p-value = 8.228e-07
+chisq.test(df7_matrix)$p.value < 0.0001
+chisq.test(df7_matrix)$residuals
+chisq.test(df7_matrix)$stdres
+assocstats(df7_matrix)
+
 # data for figure 8 =======
 # laks <- read_xlsx("pseudo-intimacy raw and analysed data.xlsx", sheet = "raw-6", range = "A1:Z5431")
 #  
@@ -372,6 +464,26 @@ df8 %>%
        y = "proportion",
        caption = "Values inside the bars are raw frequencies.")
 ggsave('figs/fig8.png', width = 7, height = 4, dpi = 300)
+
+## fisher test for fig 8 =====
+df8_matrix <- df8 |> 
+  rename(fungs = `Fungsi 4`,
+         gender = `jender 1`) |> 
+  pivot_wider(names_from = gender,
+              values_from = n,
+              values_fill = 0L) |> 
+  data.frame(row.names = 1,
+             check.names = FALSE) |> 
+  as.matrix()
+
+fisher.test(df8_matrix)
+# Fisher's Exact Test for Count Data
+# 
+# data:  df8_matrix
+# p-value = 0.003954
+# alternative hypothesis: two.sided
+fisher.test(df8_matrix)$p.value < 0.01
+assocstats(df8_matrix)
 
 
 # data for figure 9 =======
@@ -416,6 +528,31 @@ df9 %>%
        y = "proportion",
        caption = "Values inside the bars are raw frequencies.")
 ggsave('figs/fig9.png', width = 7, height = 4, dpi = 300)
+
+## chisquare test for fig 9 =====
+df9_matrix <- df9 |> 
+  rename(fungs = `Fungsi 4`,
+         gender = `jender kuMtul`) |> 
+  pivot_wider(names_from = gender,
+              values_from = n,
+              values_fill = 0L) |> 
+  data.frame(row.names = 1,
+             check.names = FALSE) |> 
+  as.matrix()
+
+fisher.test(df9_matrix)
+# Fisher's Exact Test for Count Data
+# 
+# data:  df9_matrix
+# p-value = 0.7221
+# alternative hypothesis: true odds ratio is not equal to 1
+# 95 percent confidence interval:
+#  0.1267387 3.7054727
+# sample estimates:
+# odds ratio 
+#  0.6853614
+fisher.test(df9_matrix)$p.value < 0.05
+assocstats(df9_matrix)
 
 
 # data for figure 10 =======
