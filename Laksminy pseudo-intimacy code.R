@@ -3,7 +3,7 @@ library(ggtext)
 library(readxl)
 library(vcd)
 
-# laks <- read_xlsx("/Users/Primahadi/Documents/research/2023-02-16-laksminy-article/Laksminy pseudo-intimacy raw and analysed data.xlsx", sheet = "raw-1", range = "A1:Y5271")
+# laks <- read_xlsx("Laksminy pseudo-intimacy raw and analysed data.xlsx", sheet = "raw-1", range = "A1:Y5271")
 # 
 # laks %>% 
 #   write_tsv("data/raw-1.tsv")
@@ -190,7 +190,7 @@ chisq.test(df4_mtx)$residuals
 
 
 # data for figure 5 ====
-# laks <- read_xlsx("/Users/Primahadi/Documents/research/2023-02-16-laksminy-article/Laksminy pseudo-intimacy raw and analysed data.xlsx", sheet = "raw-3", range = "A1:Y5271")
+# laks <- read_xlsx("Laksminy pseudo-intimacy raw and analysed data.xlsx", sheet = "raw-3", range = "A1:Y5271")
 # 
 # laks %>% 
 #   write_tsv("data/raw-2.tsv")
@@ -241,7 +241,7 @@ df5_count %>%
 ggsave('figs/fig5.png', width = 7.7, height = 5, dpi = 600)
 
 # data for figure 6 ======
-# laks <- read_xlsx("/Users/Primahadi/Documents/research/2023-02-16-laksminy-article/Laksminy pseudo-intimacy raw and analysed data.xlsx", sheet = "raw-4", range = "A1:Y5271")
+# laks <- read_xlsx("Laksminy pseudo-intimacy raw and analysed data.xlsx", sheet = "raw-4", range = "A1:Y5271")
 # 
 # laks %>% write_tsv("data/raw-3.tsv")
 laks <- read_tsv("data/raw-3.tsv")
@@ -289,7 +289,7 @@ ggsave('figs/fig6.png', width = 7.7, height = 5, dpi = 600)
 
 
 # data for figure 7 =======
-# laks <- read_xlsx("/Users/Primahadi/Documents/research/2023-02-16-laksminy-article/Laksminy pseudo-intimacy raw and analysed data.xlsx", sheet = "raw-5", range = "A1:Z5249")
+# laks <- read_xlsx("Laksminy pseudo-intimacy raw and analysed data.xlsx", sheet = "raw-5", range = "A1:Z5249")
 # 
 # laks %>% write_tsv("data/raw-5.tsv")
 laks <- read_tsv("data/raw-5.tsv")
@@ -333,7 +333,7 @@ df7 %>%
 ggsave('figs/fig7.png', width = 7, height = 5, dpi = 600)
 
 # data for figure 8 =======
-# laks <- read_xlsx("/Users/Primahadi/Documents/research/2023-02-16-laksminy-article/Laksminy pseudo-intimacy raw and analysed data.xlsx", sheet = "raw-6", range = "A1:Z5431")
+# laks <- read_xlsx("Laksminy pseudo-intimacy raw and analysed data.xlsx", sheet = "raw-6", range = "A1:Z5431")
 #  
 # laks %>% write_tsv("data/raw-6.tsv")
 laks <- read_tsv("data/raw-6.tsv")
@@ -375,7 +375,7 @@ ggsave('figs/fig8.png', width = 7, height = 4, dpi = 300)
 
 
 # data for figure 9 =======
-# laks <- read_xlsx("/Users/Primahadi/Documents/research/2023-02-16-laksminy-article/Laksminy pseudo-intimacy raw and analysed data.xlsx", sheet = "raw-6", range = "A1:Z5431")
+# laks <- read_xlsx("Laksminy pseudo-intimacy raw and analysed data.xlsx", sheet = "raw-6", range = "A1:Z5431")
 #  
 # laks %>% write_tsv("data/raw-6.tsv")
 laks <- read_tsv("data/raw-6.tsv")
@@ -419,7 +419,7 @@ ggsave('figs/fig9.png', width = 7, height = 4, dpi = 300)
 
 
 # data for figure 10 =======
-# laks <- read_xlsx("/Users/Primahadi/Documents/research/2023-02-16-laksminy-article/Laksminy pseudo-intimacy raw and analysed data.xlsx", sheet = "raw-7", range = "A1:Z5435")
+# laks <- read_xlsx("Laksminy pseudo-intimacy raw and analysed data.xlsx", sheet = "raw-7", range = "A1:Z5435")
 # 
 # laks %>% write_tsv("data/raw-7.tsv")
 laks <- read_tsv("data/raw-7.tsv")
